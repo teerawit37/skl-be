@@ -37,11 +37,11 @@ router.post('/signin', async (req: Request, res: Response) => {
                         httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
                         maxAge: 24 * 3600 * 1, // cookie age in seconds
                         secure: process.env.NODE_ENV === 'production',
-                        domain: process.env.NODE_ENV === 'development' ? '.localhost' : '.vercel.app',
+                        domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'vercel.app',
                         sameSite: 'none'
                     })
                     .status(200)
-                    .json({ message: process.env.NODE_ENV === 'development' ? '.localhost' : '.vercel.app' });
+                    .json({ message: process.env.NODE_ENV === 'development' ? 'localhost' : 'vercel.app' });
             } else {
                 res.status(400).json({ error: "password doesn't match" });
             }
