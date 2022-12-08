@@ -36,7 +36,7 @@ router.post('/signin', async (req: Request, res: Response) => {
                     .cookie("access_token", token, {
                         httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
                         maxAge: 24 * 3600 * 1, // cookie age in seconds
-                        secure: false,
+                        secure: process.env.NODE_ENV === 'production',
                         domain: process.env.NODE_ENV === 'development' ? '.localhost' : '.vercel.app',
                         sameSite: 'none'
                     })
