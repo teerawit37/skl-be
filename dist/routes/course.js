@@ -20,7 +20,6 @@ const router = express_1.default.Router();
 exports.courseRouter = router;
 router.get("/", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const username = req.username;
-    console.log(username);
     res.json(yield course_1.Course.find({ username }).catch((error) => res.status(400).json({ error })));
 }));
 // Show Route with authorization middleware
