@@ -1,20 +1,19 @@
 import express, { Request, Response } from 'express'
-import { authorization, isLoggedIn } from '../middleware/jwt'
+import { authorization } from '../middleware/jwt'
 import { Course } from '../models/course'
 
 const router = express.Router()
 
 router.get("/", authorization, async (req: any, res: any) => {
-  const username = req.username;
   res.json(
-    await Course.find({ username }).catch((error) =>
+    await Course.find({}).catch((error) =>
       res.status(400).json({ error })
     )
   );
 });
 
 // Show Route with authorization middleware
-router.get("/:id", isLoggedIn, async (req: any, res: any) => {
+router.get("/:id", authorization, async (req: any, res: any) => {
   const username = req.username;
   const _id = req.params.id;
   res.json(
@@ -25,7 +24,7 @@ router.get("/:id", isLoggedIn, async (req: any, res: any) => {
 });
 
 // create Route with authorization middleware
-router.post("/", isLoggedIn, async (req: any, res: any) => {
+router.post("/", authorization, async (req: any, res: any) => {
   const username = req.username;
   req.body.username = username;
   res.json(
@@ -36,7 +35,7 @@ router.post("/", isLoggedIn, async (req: any, res: any) => {
 });
 
 // update Route with authorization middleware
-router.put("/:id", isLoggedIn, async (req: any, res: any) => {
+router.put("/:id", authorization, async (req: any, res: any) => {
   const username = req.username;
   req.body.username = username;
   const _id = req.params.id;
@@ -48,7 +47,7 @@ router.put("/:id", isLoggedIn, async (req: any, res: any) => {
 });
 
 // update Route with authorization middleware
-router.delete("/:id", isLoggedIn, async (req: any, res: any) => {
+router.delete("/:id", authorization, async (req: any, res: any) => {
   const username = req.username;
   const _id = req.params.id;
   res.json(

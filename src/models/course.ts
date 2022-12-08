@@ -25,6 +25,14 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    img: {
+        type: String,
+        required: false,
+    },
+    category: {
+        type: String,
+        required: true,
+    },
     start: {
         type: String,
         required: true,

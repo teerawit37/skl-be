@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user'
-import { authorization, isLoggedIn } from '../middleware/jwt';
+import { authorization } from '../middleware/jwt';
 
 const router = express.Router()
 
@@ -18,7 +18,7 @@ router.post('/signup', async (req: Request, res: Response) => {
     }
 })
 
-router.get("/signout", isLoggedIn, (req: Request, res: Response) => {
+router.get("/signout", authorization, (req: Request, res: Response) => {
     return res
         .clearCookie("access_token")
         .status(200)
@@ -35,12 +35,11 @@ router.post('/signin', async (req: Request, res: Response) => {
                 return res
                     .cookie("access_token", token, {
                         httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
-                        maxAge: 24 * 3600 * 1, // cookie age in seconds
                         secure: process.env.NODE_ENV === 'production',
                         sameSite: 'none'
                     })
                     .status(200)
-                    .json({ token });
+                    .json({ message: "Logged in successfully" });
             } else {
                 res.status(400).json({ error: "password doesn't match" });
             }
