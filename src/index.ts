@@ -13,11 +13,16 @@ import { userRouter } from './routes/user'
 
 dotenv.config();
 
-mongoose.connect('mongodb+srv://root:PV2WBgZvdlr80YgY@cluster0.g3bhdno.mongodb.net/skilllane?retryWrites=true&w=majority',);
+mongoose.connect(process.env.DB_URL);
 
 const app: Express = express();
 
-app.use(cors({credentials: true, origin: ['http://localhost:3000', 'https://skl-fe-teerawit37.vercel.app/']})) // add cors headers
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://skl-fe-teerawit37.vercel.app", "https://skl-fe.vercel.app"],
+  credentials: true // For legacy browser support
+}
+
+app.use(cors(corsOptions)) // add cors headers
 app.use(morgan("tiny")) // log the request for debugging
 app.use(json({ limit: '50mb' }))
 app.use(cookieParser());

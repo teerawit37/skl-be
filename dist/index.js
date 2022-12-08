@@ -14,9 +14,13 @@ const course_1 = require("./routes/course");
 const auth_1 = require("./routes/auth");
 const user_1 = require("./routes/user");
 dotenv_1.default.config();
-mongoose_1.default.connect('mongodb+srv://root:PV2WBgZvdlr80YgY@cluster0.g3bhdno.mongodb.net/skilllane?retryWrites=true&w=majority');
+mongoose_1.default.connect(process.env.DB_URL);
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({ credentials: true, origin: ['http://localhost:3000', 'https://skl-fe-teerawit37.vercel.app/'] })); // add cors headers
+const corsOptions = {
+    origin: ["http://localhost:3000", "https://skl-fe-teerawit37.vercel.app", "https://skl-fe.vercel.app"],
+    credentials: true // For legacy browser support
+};
+app.use((0, cors_1.default)(corsOptions)); // add cors headers
 app.use((0, morgan_1.default)("tiny")); // log the request for debugging
 app.use((0, body_parser_1.json)({ limit: '50mb' }));
 app.use((0, cookie_parser_1.default)());

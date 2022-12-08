@@ -6,7 +6,6 @@ const router = express.Router()
 
 router.get("/", authorization, async (req: any, res: any) => {
   const username = req.username;
-  console.log(username)
   res.json(
     await Course.find({ username }).catch((error) =>
       res.status(400).json({ error })
