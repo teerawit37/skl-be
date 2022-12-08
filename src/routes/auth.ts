@@ -35,7 +35,7 @@ router.post('/signin', async (req: Request, res: Response) => {
                 return res
                     .cookie("access_token", token, {
                         httpOnly: true,
-                        secure: process.env.NODE_ENV === "production",
+                        secure: true,
                         sameSite: "none",
                     })
                     .status(200)
