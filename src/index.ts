@@ -17,10 +17,7 @@ mongoose.connect('mongodb+srv://root:PV2WBgZvdlr80YgY@cluster0.g3bhdno.mongodb.n
 
 const app: Express = express();
 
-app.use(cors({
-  origin: ['http://localhost:3000', 'https://skl-fe-teerawit37.vercel.app/'],
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-})) // add cors headers
+app.use(cors()) // add cors headers
 app.use(morgan("tiny")) // log the request for debugging
 app.use(json({ limit: '50mb' }))
 app.use(cookieParser());
