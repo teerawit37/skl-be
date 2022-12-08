@@ -61,7 +61,7 @@ const port = process.env.BACK_PORT;
 
 
 app.get('/', (req, res) => {
-  res.send("What's up doc ?!");
+  res.send("Hi Skilllane!");
 });
 
 // start the server
