@@ -17,9 +17,27 @@ mongoose.connect(process.env.DB_URL);
 
 const app: Express = express();
 
+// const corsOptions = {
+//   origin: ["http://localhost:3000", "https://skl-fe-teerawit37.vercel.app", "https://skl-fe.vercel.app"],
+//   credentials: true // For legacy browser support
+// }
+
+const whitelist = [
+  "http://localhost:3000", 
+  "https://skl-fe-teerawit37.vercel.app", 
+  "https://skl-fe.vercel.app"
+]
+
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://skl-fe-teerawit37.vercel.app", "https://skl-fe.vercel.app"],
-  credentials: true // For legacy browser support
+  credentials: true,
+  origin: (origin: any, callback: any) => {
+      if(!origin || whitelist.indexOf(origin) !== -1) {
+          callback(null, true)
+      } else {
+          callback(new Error("Not allowed by CORS: "+ origin))
+      }
+  },
+  optionsSuccessStatus: 200
 }
 
 app.use(cors(corsOptions)) // add cors headers
