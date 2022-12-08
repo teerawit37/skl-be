@@ -41,7 +41,7 @@ router.post('/signin', async (req: Request, res: Response) => {
                         sameSite: 'none'
                     })
                     .status(200)
-                    .json({ message: "Logged in successfully 😊 👌" });
+                    .json({ message: process.env.NODE_ENV });
             } else {
                 res.status(400).json({ error: "password doesn't match" });
             }
