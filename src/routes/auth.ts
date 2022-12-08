@@ -8,12 +8,6 @@ const router = express.Router()
 
 const { SECRET = "secret" } = process.env;
 
-const cookieOptions = {
-    httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
-    maxAge: 24 * 3600 * 1, // cookie age in seconds
-    secure: false
-}
-
 router.post('/signup', async (req: Request, res: Response) => {
     try {
         req.body.password = await bcrypt.hash(req.body.password, 10);
@@ -39,7 +33,12 @@ router.post('/signin', async (req: Request, res: Response) => {
             if (result) {
                 const token = await jwt.sign({ username: user.username, role: user.role }, SECRET);
                 return res
-                    .cookie("access_token", token, cookieOptions)
+                    .cookie("access_token", token, {
+                        httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
+                        maxAge: 24 * 3600 * 1, // cookie age in seconds
+                        secure: false,
+                        sameSite: 'none'
+                    })
                     .status(200)
                     .json({ message: "Logged in successfully 😊 👌" });
             } else {
