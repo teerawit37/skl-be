@@ -38,6 +38,6 @@ app.get('/', (req, res) => {
 
 // start the server
 app.listen(port, () => {
-  console.log(`server running : http://${process.env.BACK_HOST}:${port}`);
+  console.log(`server running`);
 });
 
