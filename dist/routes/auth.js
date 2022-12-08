@@ -31,7 +31,7 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(400).json({ error });
     }
 }));
-router.get("/signout", jwt_1.isLoggedIn, (req, res) => {
+router.get("/signout", jwt_1.authorization, (req, res) => {
     return res
         .clearCookie("access_token")
         .status(200)
@@ -43,16 +43,14 @@ router.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (user) {
             const result = yield bcryptjs_1.default.compare(req.body.password, user.password);
             if (result) {
-                // sign token and send it in response
-                const token = yield jsonwebtoken_1.default.sign({ username: user.username }, SECRET);
-                // res.
-                // res.json({ token });
-                res.cookie("access_token", token, {
-                    httpOnly: false,
+                const token = yield jsonwebtoken_1.default.sign({ username: user.username, role: user.role }, SECRET);
+                return res
+                    .cookie("access_token", token, {
+                    httpOnly: true,
                     secure: process.env.NODE_ENV === "production",
                 })
                     .status(200)
-                    .json({ message: "Logged in successfully" });
+                    .json({ message: "Logged in successfully 😊 👌" });
             }
             else {
                 res.status(400).json({ error: "password doesn't match" });

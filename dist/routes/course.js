@@ -18,32 +18,33 @@ const jwt_1 = require("../middleware/jwt");
 const course_1 = require("../models/course");
 const router = express_1.default.Router();
 exports.courseRouter = router;
-router.get("/", jwt_1.isLoggedIn, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = req.user;
+router.get("/", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = req.username;
+    console.log(username);
     res.json(yield course_1.Course.find({ username }).catch((error) => res.status(400).json({ error })));
 }));
-// Show Route with isLoggedIn middleware
-router.get("/:id", jwt_1.isLoggedIn, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = req.user;
+// Show Route with authorization middleware
+router.get("/:id", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = req.username;
     const _id = req.params.id;
     res.json(yield course_1.Course.findOne({ username, _id }).catch((error) => res.status(400).json({ error })));
 }));
-// create Route with isLoggedIn middleware
-router.post("/", jwt_1.isLoggedIn, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = req.user;
+// create Route with authorization middleware
+router.post("/", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = req.username;
     req.body.username = username;
     res.json(yield course_1.Course.create(req.body).catch((error) => res.status(400).json({ error })));
 }));
-// update Route with isLoggedIn middleware
-router.put("/:id", jwt_1.isLoggedIn, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = req.user;
+// update Route with authorization middleware
+router.put("/:id", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = req.username;
     req.body.username = username;
     const _id = req.params.id;
     res.json(yield course_1.Course.updateOne({ username, _id }, req.body, { new: true }).catch((error) => res.status(400).json({ error })));
 }));
-// update Route with isLoggedIn middleware
-router.delete("/:id", jwt_1.isLoggedIn, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = req.user;
+// update Route with authorization middleware
+router.delete("/:id", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = req.username;
     const _id = req.params.id;
     res.json(yield course_1.Course.remove({ username, _id }).catch((error) => res.status(400).json({ error })));
 }));

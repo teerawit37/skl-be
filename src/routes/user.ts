@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express'
-import { isLoggedIn } from '../middleware/jwt'
+import { authorization } from '../middleware/jwt'
 import { User } from '../models/user'
 
 const router = express.Router()
 
-router.get("/", isLoggedIn, async (req: any, res: any) => {
-    const { username } = req.user;
+router.get("/", authorization, async (req: any, res: any) => {
+    const username = req.username;
     res.json(
       await User.find({ username }).catch((error) =>
         res.status(400).json({ error })
@@ -13,9 +13,9 @@ router.get("/", isLoggedIn, async (req: any, res: any) => {
     );
   });
 
-  // update Route with isLoggedIn middleware
-  router.put("/:id", isLoggedIn, async (req: any, res: any) => {
-    const { username } = req.user;
+  // update Route with authorization middleware
+  router.put("/:id", authorization, async (req: any, res: any) => {
+    const username = req.username;
     req.body.username = username;
     const _id = req.params.id;
     res.json(
@@ -25,9 +25,9 @@ router.get("/", isLoggedIn, async (req: any, res: any) => {
     );
   });
 
-  // update Route with isLoggedIn middleware
-  router.delete("/:id", isLoggedIn, async (req: any, res: any) => {
-    const { username } = req.user;
+  // update Route with authorization middleware
+  router.delete("/:id", authorization, async (req: any, res: any) => {
+    const username = req.username;
     const _id = req.params.id;
     res.json(
       await User.remove({ username, _id }).catch((error) =>

@@ -18,20 +18,20 @@ const jwt_1 = require("../middleware/jwt");
 const user_1 = require("../models/user");
 const router = express_1.default.Router();
 exports.userRouter = router;
-router.get("/", jwt_1.isLoggedIn, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = req.user;
+router.get("/", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = req.username;
     res.json(yield user_1.User.find({ username }).catch((error) => res.status(400).json({ error })));
 }));
-// update Route with isLoggedIn middleware
-router.put("/:id", jwt_1.isLoggedIn, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = req.user;
+// update Route with authorization middleware
+router.put("/:id", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = req.username;
     req.body.username = username;
     const _id = req.params.id;
     res.json(yield user_1.User.updateOne({ username, _id }, req.body, { new: true }).catch((error) => res.status(400).json({ error })));
 }));
-// update Route with isLoggedIn middleware
-router.delete("/:id", jwt_1.isLoggedIn, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username } = req.user;
+// update Route with authorization middleware
+router.delete("/:id", jwt_1.authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = req.username;
     const _id = req.params.id;
     res.json(yield user_1.User.remove({ username, _id }).catch((error) => res.status(400).json({ error })));
 }));

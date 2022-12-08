@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user'
-import { isLoggedIn } from '../middleware/jwt';
+import { authorization } from '../middleware/jwt';
 
 const router = express.Router()
 
@@ -18,12 +18,12 @@ router.post('/signup', async (req: Request, res: Response) => {
     }
 })
 
-router.get("/signout", isLoggedIn, (req: Request, res: Response) => {
+router.get("/signout", authorization, (req: Request, res: Response) => {
     return res
-      .clearCookie("access_token")
-      .status(200)
-      .json({ message: "Successfully logged out" });
-  });
+        .clearCookie("access_token")
+        .status(200)
+        .json({ message: "Successfully logged out" });
+});
 
 router.post('/signin', async (req: Request, res: Response) => {
     try {
@@ -31,17 +31,14 @@ router.post('/signin', async (req: Request, res: Response) => {
         if (user) {
             const result = await bcrypt.compare(req.body.password, user.password)
             if (result) {
-                // sign token and send it in response
-                const token = await jwt.sign({ username: user.username }, SECRET);
-                // res.
-                // res.json({ token });
-                res.cookie("access_token", token, {
-                    sameSite: "none",
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                })
+                const token = await jwt.sign({ username: user.username, role: user.role }, SECRET);
+                return res
+                    .cookie("access_token", token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === "production",
+                    })
                     .status(200)
-                    .json({ message: "Logged in successfully" });
+                    .json({ message: "Logged in successfully 😊 👌" });
             } else {
                 res.status(400).json({ error: "password doesn't match" });
             }

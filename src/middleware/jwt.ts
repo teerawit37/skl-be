@@ -3,33 +3,25 @@ import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
-// MIDDLEWARE FOR AUTHORIZATION (MAKING SURE THEY ARE LOGGED IN)
-const isLoggedIn = async (req: any, res: any, next: any) => {
+interface JwtPayload {
+  username: string,
+  role: string
+}
+
+const authorization = (req: any, res: any, next: any) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.sendStatus(403);
+  }
   try {
-    // check if auth header exists
-    if (req.headers.authorization) {
-      // parse token from header
-      const token = req.cookies.access_token;
-      // const token = req.headers.authorization.split(" ")[1]; // split the header and get the token
-      if (token) {
-        const payload = await jwt.verify(token, process.env.SECRET);
-        if (payload) {
-          // store user data in request object
-          req.user = payload;
-          next();
-        } else {
-          res.status(400).json({ error: "token verification failed" });
-        }
-      } else {
-        res.status(400).json({ error: "malformed auth header" });
-      }
-    } else {
-      res.status(400).json({ error: "No authorization header" });
-    }
-  } catch (error) {
-    res.status(400).json({ error });
+    const data = jwt.verify(token, process.env.SECRET) as JwtPayload;
+    req.username = data.username;
+    req.role = data.role;
+    return next();
+  } catch {
+    return res.sendStatus(403);
   }
 };
 
 // export custom middleware
-export { isLoggedIn }
+export { authorization }
