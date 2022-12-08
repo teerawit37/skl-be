@@ -17,11 +17,6 @@ mongoose.connect(process.env.DB_URL);
 
 const app: Express = express();
 
-// const corsOptions = {
-//   origin: ["http://localhost:3000", "https://skl-fe-teerawit37.vercel.app", "https://skl-fe.vercel.app"],
-//   credentials: true // For legacy browser support
-// }
-
 const whitelist = [
   "http://localhost:3000",
   "https://skl-fe-teerawit37.vercel.app",
