@@ -37,6 +37,7 @@ router.post('/signin', async (req: Request, res: Response) => {
                         httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
                         maxAge: 24 * 3600 * 1, // cookie age in seconds
                         secure: false,
+                        domain: process.env.NODE_ENV === 'development' ? '.localhost' : '.domain.com',
                         sameSite: 'none'
                     })
                     .status(200)
