@@ -25,7 +25,9 @@ const app: Express = express();
 const whitelist = [
   "http://localhost:3000",
   "https://skl-fe-teerawit37.vercel.app",
-  "https://skl-fe.vercel.app"
+  "https://skl-fe.vercel.app",
+  "https://wormth.com",
+  "https://www.wormth.com"
 ]
 
 const corsOptions = {

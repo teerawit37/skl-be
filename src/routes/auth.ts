@@ -37,11 +37,10 @@ router.post('/signin', async (req: Request, res: Response) => {
                         httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
                         maxAge: 24 * 3600 * 1, // cookie age in seconds
                         secure: process.env.NODE_ENV === 'production',
-                        domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'vercel.app',
                         sameSite: 'none'
                     })
                     .status(200)
-                    .json({ token });
+                    .json({ message: "Logged in successfully 😊 👌" });
             } else {
                 res.status(400).json({ error: "password doesn't match" });
             }
