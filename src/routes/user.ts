@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express'
-import { authorization } from '../middleware/jwt'
+import { authorization, isLoggedIn } from '../middleware/jwt'
 import { User } from '../models/user'
 
 const router = express.Router()
 
-router.get("/", authorization, async (req: any, res: any) => {
+router.get("/", isLoggedIn, async (req: any, res: any) => {
     const username = req.username;
     res.json(
       await User.find({ username }).catch((error) =>
@@ -14,7 +14,7 @@ router.get("/", authorization, async (req: any, res: any) => {
   });
 
   // update Route with authorization middleware
-  router.put("/:id", authorization, async (req: any, res: any) => {
+  router.put("/:id", isLoggedIn, async (req: any, res: any) => {
     const username = req.username;
     req.body.username = username;
     const _id = req.params.id;
@@ -26,7 +26,7 @@ router.get("/", authorization, async (req: any, res: any) => {
   });
 
   // update Route with authorization middleware
-  router.delete("/:id", authorization, async (req: any, res: any) => {
+  router.delete("/:id", isLoggedIn, async (req: any, res: any) => {
     const username = req.username;
     const _id = req.params.id;
     res.json(
