@@ -16,10 +16,6 @@ const user_1 = require("./routes/user");
 dotenv_1.default.config();
 mongoose_1.default.connect(process.env.DB_URL);
 const app = (0, express_1.default)();
-// const corsOptions = {
-//   origin: ["http://localhost:3000", "https://skl-fe-teerawit37.vercel.app", "https://skl-fe.vercel.app"],
-//   credentials: true // For legacy browser support
-// }
 const whitelist = [
     "http://localhost:3000",
     "https://skl-fe-teerawit37.vercel.app",
@@ -54,7 +50,7 @@ app.use("/api/auth", auth_1.authRouter);
 app.use("/api/user", user_1.userRouter);
 const port = process.env.BACK_PORT;
 app.get('/', (req, res) => {
-    res.send("What's up doc ?!");
+    res.send("Hi Skilllane!");
 });
 // start the server
 app.listen(port, () => {
