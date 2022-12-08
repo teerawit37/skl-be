@@ -23,8 +23,8 @@ const app: Express = express();
 // }
 
 const whitelist = [
-  "http://localhost:3000", 
-  "https://skl-fe-teerawit37.vercel.app", 
+  "http://localhost:3000",
+  "https://skl-fe-teerawit37.vercel.app",
   "https://skl-fe.vercel.app"
 ]
 

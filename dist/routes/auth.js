@@ -47,10 +47,13 @@ router.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
                 return res
                     .cookie("access_token", token, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
+                    maxAge: 24 * 3600 * 1,
+                    secure: process.env.NODE_ENV === 'production',
+                    domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'vercel.app',
+                    sameSite: 'none'
                 })
                     .status(200)
-                    .json({ message: "Logged in successfully 😊 👌" });
+                    .json({ token });
             }
             else {
                 res.status(400).json({ error: "password doesn't match" });

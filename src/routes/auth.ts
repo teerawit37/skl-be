@@ -41,7 +41,7 @@ router.post('/signin', async (req: Request, res: Response) => {
                         sameSite: 'none'
                     })
                     .status(200)
-                    .json({ message: process.env.NODE_ENV === 'development' ? 'localhost' : 'vercel.app' });
+                    .json({ token });
             } else {
                 res.status(400).json({ error: "password doesn't match" });
             }
