@@ -37,8 +37,8 @@ router.post('/signin', async (req: Request, res: Response) => {
                         path: "/",
                         httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
                         secure: process.env.NODE_ENV === 'production',
-                        sameSite: 'strict',
-                        domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'skl-fe.vercel.app'
+                        sameSite: 'none',
+                        domain: process.env.NODE_ENV === 'development' ? 'localhost' : '.vercel.app'
                     })
                     .status(200)
                     .json({
