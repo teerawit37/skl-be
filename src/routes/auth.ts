@@ -34,9 +34,11 @@ router.post('/signin', async (req: Request, res: Response) => {
                 const token = await jwt.sign({ username: user.username, role: user.role }, SECRET);
                 return res
                     .cookie("access_token", token, {
+                        path: "/",
                         httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
                         secure: process.env.NODE_ENV === 'production',
-                        sameSite: 'none'
+                        sameSite: 'none',
+                        domain: 'skl-fe.vercel.app'
                     })
                     .status(200)
                     .json({
