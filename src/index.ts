@@ -21,8 +21,7 @@ const whitelist = [
   "http://localhost:3000",
   "https://skl-fe-teerawit37.vercel.app",
   "https://skl-fe.vercel.app",
-  "https://wormth.com",
-  "https://www.wormth.com"
+  "https://skl-fe.herokuapp.com"
 ]
 
 const corsOptions = {
@@ -37,12 +36,11 @@ const corsOptions = {
   optionsSuccessStatus: 200
 }
 
-app.use(cors({origin: `*`})) // add cors headers
+app.use(cors(corsOptions)) // add cors headers
 app.use(morgan("tiny")) // log the request for debugging
 app.use(json({ limit: '50mb' }))
 app.use(cookieParser());
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
