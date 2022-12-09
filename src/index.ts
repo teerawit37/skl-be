@@ -37,7 +37,7 @@ const corsOptions = {
   optionsSuccessStatus: 200
 }
 
-app.use(cors(corsOptions)) // add cors headers
+app.use(cors({origin: `*`})) // add cors headers
 app.use(morgan("tiny")) // log the request for debugging
 app.use(json({ limit: '50mb' }))
 app.use(cookieParser());
