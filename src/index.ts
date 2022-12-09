@@ -51,7 +51,7 @@ app.use("/api/courses", courseRouter)
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 
-const port = process.env.BACK_PORT || 1337;
+const port = process.env.BACK_PORT;
 
 
 app.get('/', (req, res) => {
