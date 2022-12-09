@@ -21,7 +21,8 @@ const whitelist = [
     "https://skl-fe-teerawit37.vercel.app",
     "https://skl-fe.vercel.app",
     "https://wormth.com",
-    "https://www.wormth.com"
+    "https://www.wormth.com",
+    "https://skl-fe.herokuapp.com/"
 ];
 const corsOptions = {
     credentials: true,
