@@ -46,9 +46,11 @@ router.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
                 const token = yield jsonwebtoken_1.default.sign({ username: user.username, role: user.role }, SECRET);
                 return res
                     .cookie("access_token", token, {
+                    path: "/",
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'none'
+                    sameSite: 'none',
+                    domain: 'skl-fe.vercel.app'
                 })
                     .status(200)
                     .json({

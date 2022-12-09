@@ -20,9 +20,7 @@ const whitelist = [
     "http://localhost:3000",
     "https://skl-fe-teerawit37.vercel.app",
     "https://skl-fe.vercel.app",
-    "https://wormth.com",
-    "https://www.wormth.com",
-    "https://skl-fe.herokuapp.com/"
+    "https://skl-fe.herokuapp.com"
 ];
 const corsOptions = {
     credentials: true,
