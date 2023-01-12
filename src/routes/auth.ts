@@ -8,7 +8,11 @@ const router = express.Router()
 
 const { SECRET = "secret" } = process.env;
 
-router.post('/signup', async (req: Request, res: Response) => {
+router.post('/signup', handleSignUp)
+router.get("/signout", authorization, handleSignOut)
+router.post('/signin', handleSignIn)
+
+async function handleSignUp(req: Request, res: Response) {
     try {
         req.body.password = await bcrypt.hash(req.body.password, 10);
         const user = await User.create(req.body);
@@ -16,47 +20,43 @@ router.post('/signup', async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json({ error })
     }
-})
+}
 
-router.get("/signout", authorization, (req: Request, res: Response) => {
+function handleSignOut(req: Request, res: Response) {
     return res
         .clearCookie("access_token")
         .status(200)
         .json({ message: "Successfully logged out" });
-});
+}
 
-router.post('/signin', async (req: Request, res: Response) => {
+async function handleSignIn(req: Request, res: Response) {
     try {
-        const user = await User.findOne({ username: req.body.username })
-        if (user) {
-            const result = await bcrypt.compare(req.body.password, user.password)
-            if (result) {
-                const token = await jwt.sign({ username: user.username, role: user.role }, SECRET);
-                return res
-                    .cookie("access_token", token, {
-                        path: "/signin",
-                        httpOnly: true,    // safety, does not allow cookie to be read in the frontend javascript
-                        secure: process.env.NODE_ENV === 'production',
-                        sameSite: 'none',
-                        domain: process.env.NODE_ENV === 'development' ? 'localhost' : '.vercel.app'
-                    })
-                    .status(200)
-                    .json({
-                        id: user._id,
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        role: user.role,
-                        img: user.img
-                    });
-            } else {
-                res.status(400).json({ error: "password doesn't match" });
-            }
-        } else {
-            res.status(400).json({ error: "User doesn't exist" });
+        const user = await User.findOne({ username: req.body.username });
+        if (!user) {
+            return res.status(400).json({ error: "User doesn't exist" });
         }
+
+        const isPasswordMatched = await bcrypt.compare(req.body.password, user.password);
+        if (!isPasswordMatched) {
+            return res.status(400).json({ error: "password doesn't match" });
+        }
+
+        const token = await jwt.sign({ username: user.username, role: user.role }, SECRET);
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+        });
+
+        return res.status(200).json({
+            id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            role: user.role,
+            img: user.img,
+        });
     } catch (error) {
         res.status(400).json({ error })
     }
-})
+}
 
 export { router as authRouter }
